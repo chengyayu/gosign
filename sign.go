@@ -42,10 +42,10 @@ func NewGenerator(ak, sk, accessTs string, options ...OptionFn) *Generator {
 }
 
 func (p *Generator) GenerateSign(r *http.Request) string {
-	return upperMD5(p.stringToSign(r))
+	return upperMD5(p.strToSign(r))
 }
 
-func (p *Generator) stringToSign(r *http.Request) string {
+func (p *Generator) strToSign(r *http.Request) string {
 	var str string
 
 	qParams := withHeaders(r, p.ak, p.accessTs)
@@ -76,7 +76,7 @@ func queryParams(r *http.Request) map[string][]string {
 		http.MethodGet: r.URL.Query,
 		http.MethodPost: func() url.Values {
 			_ = r.ParseForm()
-			return r.PostForm
+			return r.Form
 		},
 	}
 	return fns[r.Method]()
