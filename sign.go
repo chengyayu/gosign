@@ -76,7 +76,7 @@ func queryParams(r *http.Request) map[string][]string {
 		http.MethodGet: r.URL.Query,
 		http.MethodPost: func() url.Values {
 			_ = r.ParseForm()
-			return r.Form
+			return r.PostForm
 		},
 	}
 	return fns[r.Method]()
